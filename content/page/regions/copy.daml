@@ -1,0 +1,38 @@
+  {region find options {* (:sort {* (:name "-1")})} | prune "{this.name | not}" | > :regions | ""}
+
+  <header class="jumbotron masthead" id="overview">
+      <div class="container">
+        <h1>Regions are geographic!</h1>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="content">
+      <div id="sections">
+        <section id="news">
+          <div class="page-header">
+            <h1>Active regions</h1>
+          </div>
+          <div id="regions">
+            <ul>
+              {begin block | merge with @regions}
+                {ghash precision number lat | > :lat_size | ""}
+                {ghash precision number long | > :long_size | ""}
+                {lat | -: @lat_size | > :lo_lat | ""}
+                {lat | +: @lat_size | > :hi_lat | ""}
+                {long | -: @long_size | > :lo_long | ""}
+                {long | +: @long_size | > :hi_long | ""}
+              <li style="float:left">
+                <a href="/regions/{hash}">
+                  <img style="padding: 10px;" src="http://maps.googleapis.com/maps/api/staticmap?size=200x200&maptype=roadmap&path=color:0x00000000|weight:5|fillcolor:0x0000FF33|{@lo_lat},{@lo_long}|{@lo_lat},{@hi_long}|{@hi_lat},{@hi_long}|{@hi_lat},{@lo_long}&sensor=false">
+                  <br/>
+                  {name}
+                </a>
+              </li>
+              {end block}
+            </ul>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>

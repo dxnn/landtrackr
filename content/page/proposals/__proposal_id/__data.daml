@@ -1,0 +1,8 @@
+{proposal find by_ids #proposal_id | __.#1 | > :proposal | ""}
+{region find by_hash @proposal.region | __.#1 | > :region | ""}
+{ghash precision number @region.lat | > :lat_size}
+{ghash precision number @region.long | > :long_size}
+{@region.lat | -: @lat_size | > :lo_lat}
+{@region.lat | +: @lat_size | > :hi_lat}
+{@region.long | -: @long_size | > :lo_long}
+{@region.long | +: @long_size | > :hi_long}

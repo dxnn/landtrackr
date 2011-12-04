@@ -1,0 +1,188 @@
+{begin set_name}
+  <form method="post" accept-charset="utf-8" enctype="multipart/form-data">
+    <label for="name">Name</label><input type="text" name="name" value="" id="name">
+    <input type="submit" name="submit" value="Set region name">
+    <input type="hidden" name="id" value="{@region._id}">
+    <textarea name="commands" style="display:none">
+    {begin verbatim | process escape}
+      {region set_name for #id to #name}
+    {end verbatim}
+    </textarea>
+  </form>
+{end set_name}
+
+{begin set_desc}
+  <form method="post" accept-charset="utf-8" enctype="multipart/form-data">
+    <label for="desc">Description</label>
+    <input type="text" name="desc" value="" id="desc">
+    <input type="submit" name="submit" value="Set region description">
+    <input type="hidden" name="id" value="{@region._id}">
+    <textarea name="commands" style="display:none">
+    {begin verbatim | process escape}
+      {region set_desc for #id to #desc}
+    {end verbatim}
+    </textarea>
+  </form>
+{end set_desc}
+
+<header class="jumbotron masthead" id="overview">
+  <div class="container">
+    <img style="float:left" src="http://maps.googleapis.com/maps/api/staticmap?size=256x256&maptype=roadmap&path=color:0x00000000|weight:5|fillcolor:0x0000FF33|{@lo_lat},{@lo_long}|{@lo_lat},{@hi_long}|{@hi_lat},{@hi_long}|{@hi_lat},{@lo_long}&sensor=false">
+    <h1 style="float:left">{@region.name | else $set_name}</h1>
+  </div>
+</header>
+
+<div class="container">
+  <div class="content">
+    
+    <p>{@region.desc | else $set_desc}</p>
+        
+    <p>Tags: 
+      {begin tags | foreach with @region.tags glue ","} <a href="/tags/{value}">{value}</a>{end tags}
+    </p>
+    
+    <form method="post" accept-charset="utf-8" enctype="multipart/form-data">
+      <label for="tag">Tag</label><input type="text" name="tag" value="" id="tag">
+      <input type="hidden" name="region_id" value="{@region._id}" id="region_id">
+      <input type="submit" name="submit" value="Add tag">
+      <textarea name="commands" style="display:none">
+      {begin verbatim | process escape}
+        {tag add in :regions filter #region_id tag {string url_encode value #tag}}
+      {end verbatim}
+      </textarea>
+    </form>
+    
+    <h1>Active proposals</h1>
+    <ul>
+      {begin props | merge with @proposals}
+        <li><a href="/proposals/{_id}">{name}</a></li>
+      {end props}
+    </ul>
+    <h2>Nearby proposals</h2>
+    <ul>
+      {begin props | merge with @inner_proposals}
+        {begin filter | if {region | is like #hash | not}} 
+          <li><a href="/proposals/{_id}">{name}</a> [{region find by_hash region | __.#1.name}]</li>
+        {end filter}
+      {end props}
+    </ul>
+    <p>
+      <a href="/regions/{@region.hash}/add_proposal">Add proposal</a>
+    </p>
+    
+    <h1>Active permits</h1>
+    <ul>
+      {begin props | merge with @permits}
+        <li><a href="/permits/{_id}">{name}</a></li>
+      {end props}
+    </ul>
+    <h2>Nearby permits</h2>
+    <ul>
+      {begin props | merge with @inner_permits}
+        {begin filter | if {region | is like #hash | not}}          
+          <li><a href="/permits/{_id}">{name}</a> [{region find by_hash region | __.#1.name}]</li>
+        {end filter}
+      {end props}
+    </ul>
+    <p>
+      <a href="/regions/{@region.hash}/add_permit">Add permit</a>
+    </p>
+    
+    <h1>Stats</h1>
+    
+    {comment get by_thing (:regions @region._id) | > :comments
+      | profile find by_ids __.user | > :profiles | ""}
+    {begin sorter | merge with @comments}
+      {ifelse (
+        {group | is like :love} 1
+        {group | is like :hate} "-1"
+        {group | is like :meh} "0.2"
+       ) | > :scale | ""}
+      {begin prefs | foreach with @profiles.{user}.prefs}
+        {// {value | *: @scale | {* (:x {i | ++ | > :i} :y {__})} | >> :stats.{key} | ""} //}
+        {value | *: @scale | >> :stats.{key} | ""}
+      {end prefs}
+    {end sorter}
+    
+    {begin stats | foreach with @stats}
+      <p>{key}: {value}</p>
+    {end stats}
+    
+    {// <script>
+      var n = 5, // number of layers
+          m = 64, // number of samples per layer
+          data = {@stats},
+          color = d3.interpolateRgb("#aad", "#556");
+    
+    {begin block | escape}
+      var p = 20,
+          w = 960,
+          h = 500 - .5 - p,
+          mx = m,
+          my = d3.max(data, function(d) {
+            return d3.max(d, function(d) {
+              return d.y0 + d.y;
+            });
+          }),
+          mz = d3.max(data, function(d) {
+            return d3.max(d, function(d) {
+              return d.y;
+            });
+          }),
+          x = function(d) { return d.x * w / mx; },
+          y0 = function(d) { return h - d.y0 * h / my; },
+          y1 = function(d) { return h - (d.y + d.y0) * h / my; },
+          y2 = function(d) { return d.y * h / mz; }; // or `my` to not rescale
+    
+      var vis = d3.select("#chart")
+        .append("svg:svg")
+          .attr("width", w)
+          .attr("height", h + p);
+    
+      var layers = vis.selectAll("g.layer");
+      {end block}
+    </script> //}
+    
+    <h1>Comments</h1>
+    
+    <form method="post" accept-charset="utf-8" enctype="multipart/form-data">
+      <p>
+        <label for="value">Thoughts</label>
+        <input type="text" name="value" value="" id="value">
+      </p>
+      
+      <p>
+        <label for="desc">Feeling</label>
+        <select name="feeling" id="feeling" />
+          <option value="love">I like it</option>
+          <option value="hate">I hate it</option>
+          <option value="meh">I'm indifferent</option>
+        </select>
+      </p>
+      
+      {// TODO: attachments //}
+
+      <input type="submit" name="submit" value="Add comment">
+      <input type="hidden" name="region_id" value="{@region._id}">
+      
+      <textarea name="commands" style="display:none">
+      {begin verbatim | process escape}
+        {comment add thing (:regions #region_id) value #value group #feeling}
+      {end verbatim}
+      </textarea>
+    </form>
+    
+    <section id="comments">
+      {begin list | merge with @comments}
+        <div class="comment {group}">
+          <p>{value}</p>
+          <p>
+            <em>{_id | mongous extract_time | time relative include :about}</em>
+            <strong>{profile find by_ids user | __.#1.name}</strong>
+          </p>
+        </div>        
+      {end list}
+    </section>
+    
+  </div>
+</div>

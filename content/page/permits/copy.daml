@@ -1,0 +1,39 @@
+  {permital find | prune "{this.name | not}" | > :permits | ""}
+
+  <header class="jumbotron masthead" id="overview">
+      <div class="container">
+        <h1>Permits mean business</h1>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="content">
+      <div id="sections">
+        <section id="news">
+          <div class="page-header">
+            <h1>Hot new permits</h1>
+          </div>
+          <div id="permits">
+            <ul>
+              {begin block | merge with @permits}
+                {region find by_hash region | __.#1 | > :region | ""}
+                {ghash precision number @region.lat | > :lat_size | ""}
+                {ghash precision number @region.long | > :long_size | ""}
+                {@region.lat | -: @lat_size | > :lo_lat | ""}
+                {@region.lat | +: @lat_size | > :hi_lat | ""}
+                {@region.long | -: @long_size | > :lo_long | ""}
+                {@region.long | +: @long_size | > :hi_long | ""}
+              <li style="float:left">
+                <a href="/permits/{_id}">
+                  <img style="padding: 10px;" src="http://maps.googleapis.com/maps/api/staticmap?size=200x200&maptype=roadmap&path=color:0x00000000|weight:5|fillcolor:0x0000FF33|{@lo_lat},{@lo_long}|{@lo_lat},{@hi_long}|{@hi_lat},{@hi_long}|{@hi_lat},{@lo_long}&sensor=false">
+                  <br/>
+                  {name}
+                </a>
+              </li>
+              {end block}
+            </ul>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,43 @@
+  {region find by_hash #hash | __.#1 | > :region | ""}
+
+  <header class="jumbotron masthead" id="overview">
+    <div class="container">
+      <h1 style="float:left">New Proposal for {@region.name}</h1>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="content">
+      <form method="post" accept-charset="utf-8" enctype="multipart/form-data">
+        <p>
+          <label for="name">Name</label>
+          <input type="text" name="name" value="" id="name">
+        </p>
+        
+        <p>
+          <label for="goals">Goals</label>
+          <textarea name="goals" rows="8" cols="40"></textarea>
+        </p>
+        
+        <p>
+          <label for="desc">Description</label>
+          <textarea name="desc" rows="8" cols="40"></textarea>
+        </p>
+        
+        {// TODO: attachments //}
+
+        <input type="submit" name="submit" value="Add Proposal">
+        <input type="hidden" name="region_hash" value="{@region.hash}">
+        
+        <textarea name="commands" style="display:none">
+        {begin verbatim | process escape}
+          {proposal add region #region_hash | > :proposal_id}
+          {proposal set my :name to #name for @proposal_id}
+          {proposal set my :desc to #desc for @proposal_id}
+          {proposal set my :goals to #goals for @proposal_id}
+          {page redirect to {"{@SITE.path}/proposals/{@proposal_id}" | proc}}
+        {end verbatim}
+        </textarea>
+      </form>
+    </div>
+  </div>

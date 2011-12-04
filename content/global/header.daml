@@ -1,0 +1,24 @@
+<!DOCTYPE html!>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <link rel="stylesheet" href="http://daimio.org/css/styles.css">
+  <link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.4.0/bootstrap.min.css">
+  <link rel="stylesheet" href="http://daimio.org/css/prettify.css">
+  <link rel="stylesheet" href="http://landtrackr.eddyapp.com/css/styles.css">
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.15/jquery-ui.min.js"></script>
+  <script type="text/javascript" src="http://daimio.org/js/prettify.js"></script>
+  <script type="text/javascript" src="http://twitter.github.com/bootstrap/1.4.0/bootstrap-tabs.js"></script>   
+  <script type="text/javascript" src="http://twitter.github.com/bootstrap/1.4.0/bootstrap-dropdown.js"></script>
+  <script type="text/javascript" src="http://twitter.github.com/bootstrap/1.4.0/bootstrap-scrollspy.js"></script>
+
+
+  <script type="text/javascript" src="/js/d3.js"></script>
+  <script type="text/javascript" src="/js/d3.layout.js"></script>
+
+  <title>Landtrackr is your friend</title>
+</head>
+<body id="" onload="prettyPrint()"> 
+ 

@@ -1,0 +1,78 @@
+  <header class="jumbotron masthead" id="overview">
+    <div class="container">
+      <h1>{#tag}</h1>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="content">
+
+      {region find by_tags #tag | > :regions | ""}
+      {permital find by_tags #tag | > :permits | ""}
+      {proposal find by_tags #tag | > :proposals | ""}
+      
+      {// <p>This is a tag for family-friendly regions, permits, and proposals.</p> //}
+    
+      <div id="sections">
+        <section id="news">
+          <div class="page-header">
+            <h1>Recent activity for this tag</h1>
+          </div>
+          <div id="permits">
+            <h3>
+              New permits
+            </h3>
+            <ul>
+              {begin list | merge with @permits}
+                <li>
+                  <a href="/permits/{_id}">{name}</a>
+                </li>                
+              {end list}
+            </ul>
+          </div>
+          <div id="proposals">
+            <h3>
+              New proposals
+            </h3>
+            <ul>
+              {begin list | merge with @proposals}
+                <li>
+                  <a href="/proposals/{_id}">{name}</a>
+                </li>                
+              {end list}
+            </ul>
+          </div>
+          <div id="regions">
+            <h3>
+              Active regions
+            </h3>
+            <ul>
+              {begin list | merge with @regions}
+                <li>
+                  <a href="/regions/{hash}">{name}</a>
+                </li>                
+              {end list}
+            </ul>
+          </div>
+        </section>
+      </div>
+    
+    {//       <section id="comments">
+            <div class="comment like">
+              <p>
+                This tag is helpful, because it reveals family friendly places.
+              </p>
+            </div>
+            <div class="comment mew">
+              <p>
+                I'm okay with this tag, but it's not great.
+              </p>
+            </div>
+            <div class="comment hate">
+              <p>
+                I avoid noisy kids and stuff.
+              </p>
+            </div>
+          </section> //}
+    </div>
+  </div>

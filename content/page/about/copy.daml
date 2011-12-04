@@ -1,0 +1,20 @@
+  <header class="jumbotron masthead" id="overview">
+    <div class="container">
+      <h1>Landtrackr is your friend</h1>
+    </div>  
+  </header>
+
+  <div class="container">
+    <div class="content">
+      <div id="sections">
+        <section id="news">
+          <p>
+            Think of Landtrackr as the personal concierge of the future of your neighborhood.
+          </p>
+          <p>
+            Stay up to date on the latest developments, express concerns, voice opinions, make proposals for improving things. Now your neighborhood is only limited by your imagination.
+          </p>
+        </section>
+      </div>
+    </div>
+  </div>

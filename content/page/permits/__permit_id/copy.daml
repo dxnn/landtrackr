@@ -1,0 +1,73 @@
+
+  <header class="jumbotron masthead" id="overview">
+      <div class="container">
+        <img style="float:left" src="http://maps.googleapis.com/maps/api/staticmap?size=256x256&maptype=roadmap&path=color:0x00000000|weight:5|fillcolor:0x0000FF33|{@lo_lat},{@lo_long}|{@lo_lat},{@hi_long}|{@hi_lat},{@hi_long}|{@hi_lat},{@lo_long}&sensor=false">
+        <h1>{@permit.name}</h1>
+        <h2>For <a href="/regions/{@region.hash}">{@region.name}</a></h2>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="content">
+    
+      <h3>Description</h3>
+      <p>{@permit.desc}</p>
+    
+      <p>Tags: 
+        {begin tags | foreach with @permit.tags glue ","} <a href="/tags/{value}">{value}</a>{end tags}
+      </p>
+
+      <form method="post" accept-charset="utf-8" enctype="multipart/form-data">
+        <label for="tag">Tag</label><input type="text" name="tag" value="" id="tag">
+        <input type="hidden" name="permit_id" value="{@permit._id}" id="permit_id">
+        <input type="submit" name="submit" value="Add tag">
+        <textarea name="commands" style="display:none">
+        {begin verbatim | process escape}
+          {tag add in :permits filter #permit_id tag {string url_encode value #tag}}
+        {end verbatim}
+        </textarea>
+      </form>
+      
+      <h1>Comments</h1>
+
+      <form method="post" accept-charset="utf-8" enctype="multipart/form-data">
+        <p>
+          <label for="value">Thoughts</label>
+          <input type="text" name="value" value="" id="value">
+        </p>
+
+        <p>
+          <label for="desc">Feeling</label>
+          <select name="feeling" id="feeling" />
+            <option value="love">I like it</option>
+            <option value="hate">I hate it</option>
+            <option value="meh">I'm indifferent</option>
+          </select>
+        </p>
+
+        {// TODO: attachments //}
+
+        <input type="submit" name="submit" value="Add comment">
+        <input type="hidden" name="permit_id" value="{@permit._id}">
+
+        <textarea name="commands" style="display:none">
+        {begin verbatim | process escape}
+          {comment add thing (:permits #permit_id) value #value group #feeling}
+        {end verbatim}
+        </textarea>
+      </form>
+
+      <section id="comments">
+        {begin list | merge with {comment get by_thing (:permits @permit._id)}}
+          <div class="comment {group}">
+            <p>{value}</p>
+            <p>
+              <em>{_id | mongous extract_time | time relative include :about}</em>
+              <strong>{profile find by_ids user | __.#1.name}</strong>
+            </p>
+          </div>        
+        {end list}
+      </section>
+      
+    </div>
+  </div>

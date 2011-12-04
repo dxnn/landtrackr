@@ -1,0 +1,106 @@
+
+  <header class="jumbotron masthead" id="overview">
+      <div class="container">
+        <h1>Landtrackr is your friend</h1>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="content">
+      <div id="sections">
+        
+        <div class="page-header">
+          <h1>Signup</h1>
+        </div>
+          
+        <form method="post" accept-charset="utf-8" enctype="multipart/form-data">
+          <p>
+            <label for="name">Name</label>
+            <input type="text" name="name" value="" id="name">
+          </p>
+
+          <p>
+            <label for="email">Email (sign in with this)</label>
+            <input type="text" name="email" value="" id="email">
+          </p>
+
+          <p>
+            <label for="password">Password</label>
+            <input type="password" name="password" value="" id="password">
+          </p>
+
+          <h3>Your priorities</h3>
+          <p>
+            <label for="social">Social</label>
+            <select name="prefs[social]" id="social">
+              <option value="0">No concern</option>
+              <option value="1">Little concern</option>
+              <option value="2">Some concern</option>
+              <option value="3">Moderate concern</option>
+              <option value="4">Considerable concern</option>
+              <option value="5">Massive concern</option>
+            </select>
+          </p>
+          <p>
+            <label for="environmental">Environmental</label>
+            <select name="prefs[environmental]" id="environmental">
+              <option value="0">No concern</option>
+              <option value="1">Little concern</option>
+              <option value="2">Some concern</option>
+              <option value="3">Moderate concern</option>
+              <option value="4">Considerable concern</option>
+              <option value="5">Massive concern</option>
+            </select>
+          </p>
+          <p>
+            <label for="commerce">Commerce</label>
+            <select name="prefs[commerce]" id="commerce">
+              <option value="0">No concern</option>
+              <option value="1">Little concern</option>
+              <option value="2">Some concern</option>
+              <option value="3">Moderate concern</option>
+              <option value="4">Considerable concern</option>
+              <option value="5">Massive concern</option>
+            </select>
+          </p>
+          <p>
+            <label for="family">Family</label>
+            <select name="prefs[family]" id="family">
+              <option value="0">No concern</option>
+              <option value="1">Little concern</option>
+              <option value="2">Some concern</option>
+              <option value="3">Moderate concern</option>
+              <option value="4">Considerable concern</option>
+              <option value="5">Massive concern</option>
+            </select>
+          </p>
+          <p>
+            <label for="cultural">Cultural</label>
+            <select name="prefs[cultural]" id="cultural">
+              <option value="0">No concern</option>
+              <option value="1">Little concern</option>
+              <option value="2">Some concern</option>
+              <option value="3">Moderate concern</option>
+              <option value="4">Considerable concern</option>
+              <option value="5">Massive concern</option>
+            </select>
+          </p>
+
+          {// TODO: sliders //}
+
+          <input type="submit" name="submit" value="Signup">
+
+          <textarea name="commands" style="display:none">
+          {begin verbatim | process escape}
+            {user add username #email password #password | myself authenticate password #password}
+            {profile add user_id @MY.id}
+            {profile set my :name to #name for @MY.id}
+            {profile set my :prefs to #prefs for @MY.id}
+            {page redirect to :home}
+          {end verbatim}
+          </textarea>
+        </form>
+        
+      </div>
+    </div>
+  </div>

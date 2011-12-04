@@ -1,0 +1,30 @@
+  <header class="jumbotron masthead" id="overview">
+      <div class="container">
+        <h1>Tags help you find things</h1>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="content">
+      <div id="sections">
+        <section id="news">
+          <div class="page-header">
+            <h1>Some popular tags</h1>
+          </div>
+          <div id="permits">
+            <ul>
+              <li>
+                <a href="/tags/Cabbagetown">Cabbagetown</a>
+              </li>
+              <li>
+                <a href="/tags/Commerce">Commerce</a>
+              </li>
+              <li>
+                <a href="/tags/Toronto">Toronto</a>
+              </li>
+            </ul>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>

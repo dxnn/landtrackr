@@ -1,0 +1,14 @@
+{// If this region doesn't exist, we should create it //}
+{region find by_hash #hash | __.#1 | > :region | else "{region add hash #hash | > :region}"}
+{ghash precision number @region.lat | > :lat_size}
+{ghash precision number @region.long | > :long_size}
+{@region.lat | -: @lat_size | > :lo_lat}
+{@region.lat | +: @lat_size | > :hi_lat}
+{@region.long | -: @long_size | > :lo_long}
+{@region.long | +: @long_size | > :hi_long}
+
+{proposal find by_region #hash | > :proposals}
+{permits find by_region #hash | > :permits}
+
+{proposal find by_hash #hash | > :inner_proposals}
+{permits find by_hash #hash | > :inner_permits}

@@ -1,0 +1,39 @@
+
+  <header class="jumbotron masthead" id="overview">
+      <div class="container">
+        <h1>Welcome back</h1>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="content">
+      <div id="sections">
+        
+        <div class="page-header">
+          <h1>Sign in</h1>
+        </div>
+          
+        <form method="post" accept-charset="utf-8" enctype="multipart/form-data">
+          <p>
+            <label for="email">Email</label>
+            <input type="text" name="email" value="" id="email">
+          </p>
+
+          <p>
+            <label for="password">Password</label>
+            <input type="password" name="password" value="" id="password">
+          </p>
+
+          <input type="submit" name="submit" value="Signin">
+
+          <textarea name="commands" style="display:none">
+          {begin verbatim | process escape}
+            {myself authenticate username #email password #password}
+            {page redirect to :home}
+          {end verbatim}
+          </textarea>
+        </form>
+        
+      </div>
+    </div>
+  </div>

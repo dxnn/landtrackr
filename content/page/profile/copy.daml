@@ -1,0 +1,38 @@
+
+  <header class="jumbotron masthead" id="overview">
+    <div class="container">
+      <h1>You are important</h1>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="content">
+      <div id="sections">
+        
+        <div class="page-header">
+          <h1>Profile</h1>
+        </div>
+          
+        {(
+          "No concern"
+          "Little concern"
+          "Some concern"
+          "Moderate concern"
+          "Considerable concern"
+          "Massive concern"
+        ) | > :prefcode | ""}
+        {profile find by_ids @MY.id | __.#1 | > :profile | ""}
+        
+        <p>Name: {@profile.name}</p>
+        <p>Email: {@MY.username}</p>
+        
+        <h3>Priorities</h3>
+        <p>Social: {@prefcode.{@profile.prefs.social}}</p>
+        <p>Environmental: {@prefcode.{@profile.prefs.environmental}}</p>
+        <p>Commerce: {@prefcode.{@profile.prefs.commerce}}</p>
+        <p>Family: {@prefcode.{@profile.prefs.family}}</p>
+        <p>Cultural: {@prefcode.{@profile.prefs.cultural}}</p>
+          
+      </div>
+    </div>
+  </div>

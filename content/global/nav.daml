@@ -1,0 +1,34 @@
+  <div class="topbar-wrapper" style="z-index: 5;">
+    <div class="topbar">
+      <div class="topbar-inner">
+        <div class="container">
+          <h3><a href="/">Landtrackr</a></h3>
+          <ul class="nav">
+            <li class="section"><a href="/home" class="section">Home</a></li>
+            <li class="section"><a href="/regions" class="section">Regions</a></li>
+            <li class="section"><a href="/proposals" class="section">Proposals</a></li>
+            <li class="section"><a href="/permits" class="section">Permits</a></li>
+            <li class="section"><a href="/about" class="section">About</a></li>
+          </ul>
+          <p style="float:right">
+            {begin user | if {@MY.id}}
+              <a href="/profile">{profile find by_ids @MY.id | __.#1.name}</a>
+              <form method="post" accept-charset="utf-8" enctype="multipart/form-data">
+                <input type="submit" name="submit" value="Logout">
+                <textarea name="commands" style="display:none">
+                {begin verbatim | process escape}
+                  {myself logout}
+                  {page redirect to :home}
+                {end verbatim}
+                </textarea>
+              </form>
+            {end user}
+            {begin nonuser | if {@MY.id | not}}
+              <a href="/signup">Sign up</a>
+              <a href="/signin">Sign in</a>
+            {end nonuser}
+          </p>            
+        </div>
+      </div><!-- /topbar-inner -->
+    </div><!-- /topbar -->
+  </div>
